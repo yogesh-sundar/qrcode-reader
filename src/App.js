@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
+  const [input, setInput] = useState("");
+  const [word, setWord] = useState("");
+  const [link, setLink] = useState("");
+
+
+ useEffect(() => {
+    setLink(
+      `http://api.qrserver.com/v1/create-qr-code/?data=${word}&size=200x200`
+    );
+  }, [word]);
+
+  const handleClick = () => {
+    setWord(input);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="qrcode-app">
+      <h2>QR code Generator</h2>
+      <div className="creator">
+        <input
+          type="text"
+          onChange={(e) => {
+            setInput(e.target.value);
+          }}
+          placeholder="Enter text"
+        ></input>
+        <button onClick={handleClick}>Create</button>
+      </div>
+      <div className="qr-image">
+        <img src={link} alt="" className="img"></img>
+      </div>
     </div>
   );
 }
